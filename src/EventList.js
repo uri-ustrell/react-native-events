@@ -15,7 +15,6 @@ const styles = StyleSheet.create({
 const EventList = props => {
 	const db = Db();
 	[events, setEvents] = useState(db.events.map(e => ({ ...e, date: new Date(e.date) })));
-	[mikeyMouse, setMikeyMouse] = useState("Hola Mikey")
 
 	useEffect(() => {
 		setInterval(() => {
@@ -24,12 +23,10 @@ const EventList = props => {
 	}, events)
 
 	const handleAddEvent = () => {
-		//props.navigation.navigate('form');
-		setMikeyMouse("hola Mikey num" + Math.random())
+		props.navigation.navigate('form');
 	}
 
 	return ([
-		<Text key="">{mikeyMouse}</Text>,
 		<FlatList
 			style={styles.list}
 			key="flatlist"
