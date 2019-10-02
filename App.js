@@ -6,14 +6,8 @@ import EventList from "./src/EventList";
 import EventForm from './src/EventForm';
 
 const RootStack = createStackNavigator({
-  list: {
-    screen: EventList,
-    navigationOptions: () => ({ title: "Your Events" })
-  },
-  form: {
-    screen: EventForm,
-    navigationOptions: () => ({ title: "Add Event" })
-  }
+  list: { screen: EventList },
+  form: { screen: EventForm }
 });
 
 export default createAppContainer(RootStack);
