@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableHighlight, TextInput, StyleSheet } from "react-native";
+import DateTimePicker from 'react-native-modal-datetime-picker'
+import { formatDateTime } from '../api'
 
 const styles = StyleSheet.create({
 	fieldContainer: {
@@ -12,14 +14,39 @@ const styles = StyleSheet.create({
 		margin: 0,
 		marginRight: 7,
 		paddingLeft: 10
+	},
+	button: {
+		height: 50,
+		backgroundColor: '#48BBEC',
+		borderColor: '#48BBEC',
+		alignSelf: 'stretch',
+		margin: 10,
+		justifyContent: 'center',
+		alignItems: 'center',
+		borderRadius: 5,
+	},
+	buttonText: {
+		color: '#fff',
+		fontSize: 18,
+	},
+	borderTop: {
+		borderColor: '#edeeef',
+		borderTopWidth: 0.5
 	}
 });
 
 const EventForm = props => {
 	[title, setTitle] = useState("");
+	[date, setDate] = useState(new Date());
+	[showDatePicked, setShowDatePicked] = useState(false);
 
 	const handleAddPress = () => {
 		props.navigation.goBack();
+	}
+
+	const handleConfigDate = (inputDate) => {
+		setDate(inputDate);
+		setShowDatePicked(false);
 	}
 
 	return (
@@ -36,11 +63,28 @@ const EventForm = props => {
 					value={title}
 					onChangeText={inpt => setTitle(inpt)}
 				/>
+				<TextInput
+					style={[styles.text, styles.borderTop]}
+					placeholder="Event Date"
+					spellCheck={false}
+					value={formatDateTime(date.toString())}
+					editable={!showDatePicked}
+					onFocus={() => setShowDatePicked(true)}
+				/>
+				<DateTimePicker
+					isVisible={showDatePicked}
+					onConfirm={handleConfigDate}
+					mode="datetime"
+					onCancel={() => setShowDatePicked(false)}
+				/>
 			</View>
 			<TouchableHighlight
 				onPress={handleAddPress}
+				style={styles.button}
 			>
-				<Text>{title}</Text>
+				<Text
+					style={styles.buttonText}
+				>Add</Text>
 			</TouchableHighlight>
 		</View >
 	)

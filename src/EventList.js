@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FlatList, Text, StyleSheet } from 'react-native';
 import ActionButton from 'react-native-action-button';
-import Db from "../db";
+import { getEvents } from "../api";
 import EventCard from "./EventCard"
 
 const styles = StyleSheet.create({
@@ -13,14 +13,14 @@ const styles = StyleSheet.create({
 })
 
 const EventList = props => {
-	const db = Db();
-	[events, setEvents] = useState(db.events.map(e => ({ ...e, date: new Date(e.date) })));
+	[events, setEvents] = useState([]);
 
 	useEffect(() => {
-		setInterval(() => {
+		getEvents().then(events => setEvents(events));
+		/* setInterval(() => {
 			setEvents(events.map(e => ({ ...e, timer: Date.now() })));
-		}, 1000)
-	}, events)
+		}, 1000) */
+	}, [])
 
 	const handleAddEvent = () => {
 		props.navigation.navigate('form');
